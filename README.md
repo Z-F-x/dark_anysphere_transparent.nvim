@@ -2,14 +2,6 @@
 
 ## Also you need to run this in nvim with lazyvim + in a terminal emulator that is set to transparent, transluscent and blur. Screnshots are taken while running config in konsole.
 
-# VSCode Modern theme for Neovim, Transparent
-![screenshot-01](./screenshots/Screenshot_20241004_104859.png)
-
-## Files / fzf
-![screenshot-02](./screenshots/Screenshot_20241004_105126.png)
-
-## Neo-Tree Filesystem and Editor
-![screenshot-03](./screenshots/Screenshot_20241004_105151.png)
 
 
 # Installation
@@ -17,7 +9,7 @@
 [lazy.nvim](https://github.com/folke/lazy.nvim)
 ```lua
   {
-    "Z-F-x/vscode_modern_theme_transparent.nvim",
+    "Z-F-x/dark_anyshpere_transparent.nvim",
     opts = {
       transparent = true,
       styles = {
@@ -28,7 +20,7 @@
     lazy = false,
     priority = 1000,
     config = function()
-      require("vscode_modern").setup({
+      require("dark_anysphere_transparent").setup({
         cursorline = true,
         transparent_background = true,
         nvim_tree_darker = true,
