@@ -1,3 +1,22 @@
+-- Function to handle hex colors with alpha values
+local function clean_hex_color(color)
+    if type(color) ~= "string" then
+        return color
+    end
+    
+    -- Check for 8-digit hex colors (with alpha) and remove alpha component
+    if color:match("^#%x%x%x%x%x%x%x%x$") then
+        return color:sub(1, 7)
+    end
+    
+    -- Handle special transparent values
+    if color == "#00000000" then
+        return "NONE"
+    end
+    
+    return color
+end
+
 -- Function to ensure all background values are properly handled for transparency
 local function ensure_valid_colors(obj)
     if type(obj) ~= "table" then
@@ -9,6 +28,8 @@ local function ensure_valid_colors(obj)
             obj[k] = ensure_valid_colors(v)
         elseif k == "bg" and (v == "#00000000" or v:match("^#%x%x%x%x%x%x$")) then
             obj[k] = "NONE"
+        elseif type(v) == "string" then
+            obj[k] = clean_hex_color(v)
         end
     end
     
@@ -21,7 +42,7 @@ return {
     --- @return AnysphereModernThemeDark
     dark = function(palette, config)
         -- Always use NONE for background in transparent theme
-        local background = 'NONE'
+    local background = 'NONE'
         local statusline_bg = 'NONE'
 
         if

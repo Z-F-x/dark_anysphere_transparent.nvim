@@ -1,5 +1,24 @@
 local M = {}
 
+-- Helper function to clean hex colors
+local function clean_hex_color(color)
+    if type(color) ~= "string" then
+        return color
+    end
+    
+    -- Check for 8-digit hex colors (with alpha) and remove alpha component
+    if color:match("^#%x%x%x%x%x%x%x%x$") then
+        return color:sub(1, 7)
+    end
+    
+    -- Handle special transparent values
+    if color == "#00000000" then
+        return "NONE"
+    end
+    
+    return color
+end
+
 --- @class AnysphereModernModernConfig
 --- @field cursorline? boolean
 --- @field transparent_background? boolean
@@ -83,12 +102,19 @@ function M.load()
             local current = vim.api.nvim_get_hl(0, {name = group})
             if current then
                 current.bg = nil
-                vim.api.nvim_set_hl(0, group, current)
+                
+                -- Clean any color values
+                if current.fg then
+                    current.fg = clean_hex_color(current.fg)
+                end
+                
+                -- Safely apply highlight
+                pcall(vim.api.nvim_set_hl, 0, group, current)
             end
         end
         
         -- Ensure background is properly cleared
-        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+        pcall(vim.api.nvim_set_hl, 0, "Normal", { bg = "NONE" })
     else
         vim.notify(
             '[dark_anysphere_transparent.nvim] error trying to load cache file',
@@ -101,6 +127,25 @@ end
 --- @param theme_dark AnysphereModernThemeDark
 --- @param theme_light AnysphereModernModernThemeLight
 function M.compile(config, theme_dark, theme_light)
+    -- Function to sanitize color values before compilation
+    local function sanitize_colors(color_table)
+        if type(color_table) ~= "table" then
+            return color_table
+        end
+        
+        local sanitized = vim.deepcopy(color_table)
+        
+        for k, v in pairs(sanitized) do
+            if type(v) == "table" then
+                sanitized[k] = sanitize_colors(v)
+            elseif type(v) == "string" then
+                sanitized[k] = clean_hex_color(v)
+            end
+        end
+        
+        return sanitized
+    end
+
     local lines = {
         string.format [[return string.dump(function()
 vim.cmd.highlight('clear')
@@ -111,8 +156,12 @@ vim.opt.termguicolors=true]],
 
     table.insert(lines, 'if vim.o.background == \'dark\' then')
     local hgs_dark = require('dark_anysphere_transparent.hlgroups').get(config, theme_dark)
+    
+    -- Sanitize colors before compilation
+    hgs_dark = sanitize_colors(hgs_dark)
+    
     for group, color in pairs(hgs_dark) do
-        -- Replace any #00000000 values with NONE
+        -- Double-check that there are no problematic colors
         if color.bg == "#00000000" then
             color.bg = "NONE"
         end
@@ -130,8 +179,12 @@ vim.opt.termguicolors=true]],
     table.insert(lines, 'else')
 
     local hgs_light = require('dark_anysphere_transparent.hlgroups').get(config, theme_light)
+    
+    -- Sanitize colors before compilation
+    hgs_light = sanitize_colors(hgs_light)
+    
     for group, color in pairs(hgs_light) do
-        -- Replace any #00000000 values with NONE
+        -- Double-check that there are no problematic colors
         if color.bg == "#00000000" then
             color.bg = "NONE"
         end

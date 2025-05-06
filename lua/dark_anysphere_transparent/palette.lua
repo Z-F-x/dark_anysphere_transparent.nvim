@@ -7,7 +7,7 @@ M.grey_03 = '#292929'     -- line highlight
 M.grey_04 = '#2A2A2A'     -- dropdown border
 M.grey_05 = '#404040'     -- selection background
 M.grey_06 = '#505050'     -- inactive line number
-M.grey_07 = '#CCCCCC'   -- main text/foreground (updated to match VSCode)
+M.grey_07 = '#CCCCCC'     -- main text/foreground (removed alpha value that was causing error)
 M.grey_08 = '#D8DEE9'     -- editor foreground
 M.grey_09 = '#FFFFFF'     -- active line number
 
