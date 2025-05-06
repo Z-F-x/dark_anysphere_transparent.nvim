@@ -7,7 +7,7 @@ M.grey_03 = '#292929'     -- line highlight
 M.grey_04 = '#2A2A2A'     -- dropdown border
 M.grey_05 = '#404040'     -- selection background
 M.grey_06 = '#505050'     -- inactive line number
-M.grey_07 = '#CCCCCC'     -- main text/foreground
+M.grey_07 = '#CCCCCCdd'   -- main text/foreground (updated to match VSCode)
 M.grey_08 = '#D8DEE9'     -- editor foreground
 M.grey_09 = '#FFFFFF'     -- active line number
 
@@ -31,7 +31,7 @@ M.yellow_03 = '#ea7620'   -- minimap warning
 
 -- Transparency - use NONE instead of hex codes with alpha
 M.none = 'NONE'
-M.none_1 = 'NONE' -- Changed from #00000000 to NONE
+M.none_1 = 'NONE'
 
 -- Semantic token colors from Anysphere theme
 M.semantic = {
@@ -54,48 +54,48 @@ function M.setup()
   end
   vim.o.background = "dark"
   vim.o.termguicolors = true
-  vim.g.colors_name = "AnysphereModern_modern_theme"
+  vim.g.colors_name = "dark_anysphere_transparent"
 
   local groups = {
-    -- Vim interface
-    Normal = { fg = M.grey_07, bg = M.grey_01 },
-    NormalFloat = { fg = M.grey_07, bg = M.grey_01 },
+    -- Vim interface - all backgrounds set to NONE for transparency
+    Normal = { fg = M.grey_07, bg = M.none },
+    NormalFloat = { fg = M.grey_07, bg = M.none },
     Cursor = { fg = M.grey_01, bg = M.grey_07 },
-    CursorLine = { bg = M.grey_07 }, -- e.g. approximating "#292929"
-    CursorColumn = { bg = M.grey_07 },
-    ColorColumn = { bg = M.grey_07 },
-    LineNr = { fg = M.grey_08 },
-    CursorLineNr = { fg = M.grey_07 },
-    VertSplit = { fg = M.grey_09 },
-    Folded = { fg = M.grey_08, bg = M.grey_07 },
-    FoldColumn = { fg = M.grey_08, bg = M.grey_01 },
-    SignColumn = { bg = M.grey_01 },
-    StatusLine = { fg = M.grey_07, bg = M.grey_07 },
-    StatusLineNC = { fg = M.grey_08, bg = M.grey_07 },
-    Pmenu = { fg = M.grey_07, bg = M.grey_07 },
-    PmenuSel = { fg = M.grey_07, bg = M.blue_04 },
-    PmenuSbar = { bg = M.grey_07 },
-    PmenuThumb = { bg = M.grey_08 },
+    CursorLine = { bg = M.grey_03 },
+    CursorColumn = { bg = M.grey_03 },
+    ColorColumn = { bg = M.grey_03 },
+    LineNr = { fg = M.grey_06, bg = M.none },
+    CursorLineNr = { fg = M.grey_09, bg = M.none },
+    VertSplit = { fg = M.grey_04, bg = M.none },
+    Folded = { fg = M.grey_08, bg = M.none },
+    FoldColumn = { fg = M.grey_08, bg = M.none },
+    SignColumn = { bg = M.none },
+    StatusLine = { fg = M.grey_07, bg = M.none },
+    StatusLineNC = { fg = M.grey_08, bg = M.none },
+    Pmenu = { fg = M.grey_07, bg = M.none },
+    PmenuSel = { fg = M.grey_09, bg = M.blue_04 },
+    PmenuSbar = { bg = M.none },
+    PmenuThumb = { bg = M.grey_06 },
     MatchParen = { fg = M.yellow_01, bold = true },
-    NonText = { fg = M.grey_07 },
-    SpecialKey = { fg = M.grey_07 },
-    Visual = { bg = M.blue_04 },
-    VisualNOS = { bg = M.blue_04 },
+    NonText = { fg = M.grey_06, bg = M.none },
+    SpecialKey = { fg = M.grey_06, bg = M.none },
+    Visual = { bg = M.blue_06 },
+    VisualNOS = { bg = M.blue_06 },
     Search = { fg = M.grey_01, bg = M.yellow_02 },
     IncSearch = { fg = M.grey_01, bg = M.yellow_02 },
     QuickFixLine = { bg = M.blue_04 },
-    Terminal = { fg = M.grey_07, bg = M.grey_02 },
+    Terminal = { fg = M.grey_07, bg = M.none },
 
     -- Syntax
-    Comment = { fg = M.grey_08, italic = true },
+    Comment = { fg = M.semantic.comment, italic = true },
     Constant = { fg = M.yellow_01 },
-    String = { fg = M.purple },
-    Character = { fg = M.purple },
-    Number = { fg = M.yellow_01 },
+    String = { fg = M.semantic.string },
+    Character = { fg = M.semantic.string },
+    Number = { fg = M.semantic.func },
     Boolean = { fg = M.blue_04 },
-    Float = { fg = M.yellow_01 },
+    Float = { fg = M.semantic.func },
     Identifier = { fg = M.blue_04 },
-    Function = { fg = M.yellow_01 },
+    Function = { fg = M.semantic.func },
     Statement = { fg = M.blue_04 },
     Conditional = { fg = M.blue_04 },
     Repeat = { fg = M.blue_04 },
@@ -108,7 +108,7 @@ function M.setup()
     Define = { fg = M.blue_04 },
     Macro = { fg = M.blue_04 },
     PreCondit = { fg = M.blue_04 },
-    Type = { fg = M.yellow_01 },
+    Type = { fg = M.semantic.class },
     StorageClass = { fg = M.blue_04 },
     Structure = { fg = M.blue_04 },
     Typedef = { fg = M.blue_04 },
@@ -121,7 +121,7 @@ function M.setup()
     Underlined = { underline = true },
     Ignore = { fg = M.grey_08 },
     Error = { fg = M.red_01 },
-    Todo = { fg = M.purple, bold = true },
+    Todo = { fg = M.semantic.string, bold = true },
 
     -- Treesitter
     ["@punctuation.delimiter"] = { fg = M.grey_07 },
@@ -131,22 +131,22 @@ function M.setup()
     ["@constant.builtin"] = { fg = M.yellow_01 },
     ["@constant.macro"] = { fg = M.yellow_01 },
     ["@string.regex"] = { fg = M.red_01 },
-    ["@string"] = { fg = M.purple },
-    ["@character"] = { fg = M.purple },
-    ["@number"] = { fg = M.yellow_01 },
+    ["@string"] = { fg = M.semantic.string },
+    ["@character"] = { fg = M.semantic.string },
+    ["@number"] = { fg = M.semantic.func },
     ["@boolean"] = { fg = M.blue_04 },
-    ["@float"] = { fg = M.yellow_01 },
+    ["@float"] = { fg = M.semantic.func },
     ["@annotation"] = { fg = M.yellow_01 },
     ["@attribute"] = { fg = M.blue_04 },
-    ["@namespace"] = { fg = M.yellow_01 },
-    ["@function.builtin"] = { fg = M.blue_04 },
-    ["@function"] = { fg = M.yellow_01 },
-    ["@function.macro"] = { fg = M.yellow_01 },
-    ["@parameter"] = { fg = M.grey_07 },
-    ["@parameter.reference"] = { fg = M.grey_07 },
-    ["@method"] = { fg = M.yellow_01 },
-    ["@field"] = { fg = M.purple },
-    ["@property"] = { fg = M.purple },
+    ["@namespace"] = { fg = M.semantic.class },
+    ["@function.builtin"] = { fg = M.semantic.cyan },
+    ["@function"] = { fg = M.semantic.func },
+    ["@function.macro"] = { fg = M.semantic.decorator },
+    ["@parameter"] = { fg = M.semantic.parameter },
+    ["@parameter.reference"] = { fg = M.semantic.parameter },
+    ["@method"] = { fg = M.semantic.func },
+    ["@field"] = { fg = M.semantic.purple },
+    ["@property"] = { fg = M.semantic.purple },
     ["@constructor"] = { fg = M.blue_04 },
     ["@conditional"] = { fg = M.blue_04 },
     ["@repeat"] = { fg = M.blue_04 },
@@ -156,42 +156,42 @@ function M.setup()
     ["@keyword.operator"] = { fg = M.blue_04 },
     ["@operator"] = { fg = M.grey_07 },
     ["@exception"] = { fg = M.blue_04 },
-    ["@type"] = { fg = M.yellow_01 },
-    ["@type.builtin"] = { fg = M.yellow_01 },
-    ["@structure"] = { fg = M.yellow_01 },
+    ["@type"] = { fg = M.semantic.class },
+    ["@type.builtin"] = { fg = M.semantic.cyan },
+    ["@structure"] = { fg = M.semantic.class },
     ["@include"] = { fg = M.blue_04 },
-    ["@variable"] = { fg = M.blue_05 },
-    ["@variable.builtin"] = { fg = M.yellow_01 },
+    ["@variable"] = { fg = M.semantic.parameter },
+    ["@variable.builtin"] = { fg = M.semantic.cyan },
 
     -- LSP
     DiagnosticError = { fg = M.red_01 },
     DiagnosticWarn = { fg = M.yellow_01 },
-    DiagnosticInfo = { fg = M.blue_04 },
-    DiagnosticHint = { fg = M.blue_04 },
-    LspReferenceText = { bg = M.grey_07 },
-    LspReferenceRead = { bg = M.grey_07 },
-    LspReferenceWrite = { bg = M.grey_07 },
+    DiagnosticInfo = { fg = M.blue_01 },
+    DiagnosticHint = { fg = M.blue_01 },
+    LspReferenceText = { bg = M.grey_05 },
+    LspReferenceRead = { bg = M.grey_05 },
+    LspReferenceWrite = { bg = M.grey_05 },
 
     -- Plugins
-    TelescopeNormal = { fg = M.grey_07, bg = M.grey_01 },
-    TelescopeBorder = { fg = M.grey_09, bg = M.grey_01 },
-    TelescopePromptNormal = { fg = M.grey_07, bg = M.grey_07 },
-    TelescopePromptBorder = { fg = M.grey_09, bg = M.grey_07 },
-    TelescopePromptTitle = { fg = M.grey_07, bg = M.blue_04 },
-    TelescopePreviewTitle = { fg = M.grey_07, bg = M.blue_04 },
-    TelescopeResultsTitle = { fg = M.grey_07, bg = M.blue_04 },
+    TelescopeNormal = { fg = M.grey_07, bg = M.none },
+    TelescopeBorder = { fg = M.grey_04, bg = M.none },
+    TelescopePromptNormal = { fg = M.grey_07, bg = M.none },
+    TelescopePromptBorder = { fg = M.grey_04, bg = M.none },
+    TelescopePromptTitle = { fg = M.grey_09, bg = M.blue_02 },
+    TelescopePreviewTitle = { fg = M.grey_09, bg = M.blue_02 },
+    TelescopeResultsTitle = { fg = M.grey_09, bg = M.blue_02 },
 
     GitSignsAdd = { fg = M.green_01 },
-    GitSignsChange = { fg = M.blue_04 },
+    GitSignsChange = { fg = M.yellow_01 },
     GitSignsDelete = { fg = M.red_01 },
 
-    BufferLineFill = { bg = M.grey_07 },
-    BufferLineBackground = { fg = M.grey_08, bg = M.grey_07 },
-    BufferLineBufferVisible = { fg = M.grey_07, bg = M.grey_07 },
-    BufferLineBufferSelected = { fg = M.grey_07, bg = M.grey_01, bold = true },
+    BufferLineFill = { bg = M.none },
+    BufferLineBackground = { fg = M.grey_06, bg = M.none },
+    BufferLineBufferVisible = { fg = M.grey_07, bg = M.none },
+    BufferLineBufferSelected = { fg = M.grey_09, bg = M.none, bold = true },
 
-    IndentBlanklineChar = { fg = M.grey_07 },
-    IndentBlanklineContextChar = { fg = M.purple },
+    IndentBlanklineChar = { fg = M.grey_04 },
+    IndentBlanklineContextChar = { fg = M.semantic.purple },
   }
 
   for group, styles in pairs(groups) do

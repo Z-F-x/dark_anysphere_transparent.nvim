@@ -7,7 +7,7 @@ local function ensure_valid_colors(obj)
     for k, v in pairs(obj) do
         if type(v) == "table" then
             obj[k] = ensure_valid_colors(v)
-        elseif k == "bg" and v == "#00000000" then
+        elseif k == "bg" and (v == "#00000000" or v:match("^#%x%x%x%x%x%x$")) then
             obj[k] = "NONE"
         end
     end
@@ -20,8 +20,9 @@ return {
     --- @param config AnysphereModernModernConfig
     --- @return AnysphereModernThemeDark
     dark = function(palette, config)
-        local background = config.transparent_background and 'NONE' or palette.grey_01
-        local statusline_bg = config.transparent_background and 'NONE' or palette.grey_01
+        -- Always use NONE for background in transparent theme
+        local background = 'NONE'
+        local statusline_bg = 'NONE'
 
         if
             config.custom_dark_background ~= nil
@@ -44,7 +45,7 @@ return {
             palette = palette,
             ui = {
                 bg = background,
-                bg_darker_01 = config.transparent_background and 'NONE' or palette.grey_01,
+                bg_darker_01 = background,
                 fg = palette.grey_07,
                 cursor = {
                     bg = palette.grey_09,
@@ -56,40 +57,40 @@ return {
                     line = {
                         bg = palette.grey_03,
                         nr = {
-                            bg = palette.grey_03,
+                            bg = background,
                             fg = palette.grey_09,
                         },
                     },
                 },
                 context = {
-                    bg = palette.grey_04,
+                    bg = background,
                 },
                 directory = {
                     fg = palette.yellow_01,
                 },
                 float = {
-                    bg = config.transparent_background and 'NONE' or palette.grey_01,
+                    bg = background,
                     border = {
-                        bg = config.transparent_background and 'NONE' or palette.grey_01,
+                        bg = background,
                         fg = palette.grey_04,
                     },
                 },
                 line_nr = {
-                    bg = config.transparent_background and 'NONE' or background,
+                    bg = background,
                     fg = palette.grey_06,
                 },
                 match_paren = {
                     bg = palette.grey_05,
                 },
                 non_text = {
-                    bg = 'NONE',
+                    bg = background,
                     fg = palette.grey_06,
                 },
                 status_line = {
-                    bg = statusline_bg,
+                    bg = background,
                     fg = palette.grey_07,
                     medium = {
-                        bg = palette.grey_01,
+                        bg = background,
                         fg = palette.grey_07,
                     },
                     mode = {
@@ -111,24 +112,23 @@ return {
                     bg = palette.blue_06,
                 },
                 sign_column = {
-                    bg = 'NONE',
+                    bg = background,
                 },
                 visual = {
                     bg = palette.blue_06,
                 },
                 whitespace = {
-                    bg = 'NONE',
+                    bg = background,
                     fg = palette.grey_06,
                 },
                 win_separator = {
-                    fg = config.transparent_background and palette.grey_06
-                        or palette.grey_01,
+                    fg = palette.grey_06,
                 },
                 pmenu = {
-                    bg = palette.grey_02,
+                    bg = background,
                     fg = palette.grey_07,
                     sbar = {
-                        bg = palette.grey_02,
+                        bg = background,
                     },
                     sel = {
                         bg = palette.blue_06,
@@ -145,7 +145,7 @@ return {
                     },
                 },
                 folded = {
-                    bg = palette.blue_06,
+                    bg = background,
                 },
                 title = {
                     bg = palette.blue_02,
@@ -156,10 +156,10 @@ return {
                         fg = palette.blue_02,
                     },
                     preview = {
-                        bg = palette.grey_01,
+                        bg = background,
                         border = {
-                            bg = palette.grey_01,
-                            fg = palette.grey_01,
+                            bg = background,
+                            fg = palette.grey_04,
                         },
                         title = {
                             bg = palette.blue_02,
@@ -167,11 +167,11 @@ return {
                         },
                     },
                     prompt = {
-                        bg = palette.grey_02,
+                        bg = background,
                         fg = palette.grey_09,
                         border = {
-                            bg = palette.grey_02,
-                            fg = palette.grey_02,
+                            bg = background,
+                            fg = palette.grey_04,
                         },
                         counter = {
                             fg = palette.grey_09,
@@ -182,10 +182,10 @@ return {
                         },
                     },
                     results = {
-                        bg = palette.grey_01,
+                        bg = background,
                         border = {
-                            bg = palette.grey_01,
-                            fg = palette.grey_01,
+                            bg = background,
+                            fg = palette.grey_04,
                         },
                         title = {
                             bg = palette.blue_02,
@@ -254,7 +254,7 @@ return {
                     text = palette.grey_05,
                 },
                 inlay_hint = {
-                    bg = config.transparent_background and 'NONE' or palette.grey_02,
+                    bg = background,
                     fg = palette.grey_06,
                 },
             },
@@ -287,7 +287,8 @@ return {
     --- @param config AnysphereModernModernConfig
     --- @return AnysphereModernModernThemeLight
     light = function(palette, config)
-        local background = config.transparent_background and 'NONE' or palette.grey_09
+        -- Always use NONE for background in transparent theme
+        local background = 'NONE'
 
         if
             config.custom_light_background ~= nil
@@ -302,8 +303,8 @@ return {
             palette = palette,
             ui = {
                 bg = background,
-                bg_darker_01 = palette.grey_07,
-                bg_darker_02 = palette.grey_07,
+                bg_darker_01 = background,
+                bg_darker_02 = background,
                 fg = palette.grey_06,
                 cursor = {
                     bg = palette.grey_01,
@@ -315,40 +316,40 @@ return {
                     line = {
                         bg = palette.grey_07,
                         nr = {
-                            bg = palette.grey_07,
+                            bg = background,
                             fg = palette.blue_04,
                         },
                     },
                 },
                 context = {
-                    bg = palette.grey_07,
+                    bg = background,
                 },
                 directory = {
                     fg = palette.yellow_01,
                 },
                 float = {
-                    bg = config.transparent_background and 'NONE' or background,
+                    bg = background,
                     border = {
-                        bg = config.transparent_background and 'NONE' or background,
+                        bg = background,
                         fg = palette.grey_06,
                     },
                 },
                 line_nr = {
-                    bg = config.transparent_background and 'NONE' or background,
+                    bg = background,
                     fg = palette.grey_06,
                 },
                 match_paren = {
                     bg = palette.grey_07,
                 },
                 non_text = {
-                    bg = 'NONE',
+                    bg = background,
                     fg = palette.grey_07,
                 },
                 status_line = {
-                    bg = config.transparent_background and 'NONE' or palette.grey_07,
+                    bg = background,
                     fg = palette.grey_06,
                     medium = {
-                        bg = palette.grey_07,
+                        bg = background,
                         fg = palette.grey_06,
                     },
                     mode = {
@@ -370,23 +371,23 @@ return {
                     bg = palette.yellow_01,
                 },
                 sign_column = {
-                    bg = 'NONE',
+                    bg = background,
                 },
                 visual = {
                     bg = palette.blue_06,
                 },
                 whitespace = {
-                    bg = 'NONE',
+                    bg = background,
                     fg = palette.grey_07,
                 },
                 win_separator = {
                     fg = palette.grey_07,
                 },
                 pmenu = {
-                    bg = config.transparent_background and 'NONE' or palette.grey_07,
+                    bg = background,
                     fg = palette.grey_06,
                     sbar = {
-                        bg = config.transparent_background and 'NONE' or palette.grey_07,
+                        bg = background,
                     },
                     sel = {
                         bg = palette.grey_07,
@@ -403,7 +404,7 @@ return {
                     },
                 },
                 folded = {
-                    bg = palette.blue_06,
+                    bg = background,
                 },
                 title = {
                     bg = palette.blue_02,
@@ -414,9 +415,9 @@ return {
                         fg = palette.blue_02,
                     },
                     preview = {
-                        bg = config.transparent_background and 'NONE' or palette.grey_07,
+                        bg = background,
                         border = {
-                            bg = config.transparent_background and 'NONE' or palette.grey_07,
+                            bg = background,
                             fg = palette.grey_07,
                         },
                         title = {
@@ -425,10 +426,10 @@ return {
                         },
                     },
                     prompt = {
-                        bg = config.transparent_background and 'NONE' or palette.grey_07,
+                        bg = background,
                         fg = palette.grey_06,
                         border = {
-                            bg = config.transparent_background and 'NONE' or palette.grey_07,
+                            bg = background,
                             fg = palette.grey_07,
                         },
                         counter = {
@@ -440,9 +441,9 @@ return {
                         },
                     },
                     results = {
-                        bg = config.transparent_background and 'NONE' or palette.grey_07,
+                        bg = background,
                         border = {
-                            bg = config.transparent_background and 'NONE' or palette.grey_07,
+                            bg = background,
                             fg = palette.grey_07,
                         },
                         title = {
@@ -511,7 +512,7 @@ return {
                     text = palette.grey_07,
                 },
                 inlay_hint = {
-                    bg = config.transparent_background and 'NONE' or palette.grey_09,
+                    bg = background,
                     fg = palette.grey_06,
                 },
             },

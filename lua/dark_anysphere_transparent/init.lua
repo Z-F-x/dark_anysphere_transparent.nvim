@@ -12,7 +12,7 @@ local M = {}
 --- @field cache_path? string
 M.config = {
     cursorline = false,
-    transparent_background = true, -- Set this to true
+    transparent_background = true, -- Always true for this theme
     nvim_tree_darker = false,
     undercurl = true,
     italic_keyword = true,
@@ -24,7 +24,11 @@ M.config = {
 
 --- @overload fun(config?: AnysphereModernModernConfig)
 function M.setup(config)
-    M.config = vim.tbl_deep_extend('force', M.config, config or {})
+    -- Ensure transparency is always enabled
+    config = config or {}
+    config.transparent_background = true
+    
+    M.config = vim.tbl_deep_extend('force', M.config, config)
 end
 
 -- Force recompilation by deleting the cache
@@ -52,8 +56,9 @@ function M.load()
     -- Force recompilation to ensure updated settings
     force_recompile()
     
-    -- Set the global transparency flag
-    vim.g.transparent_background = M.config.transparent_background
+    -- Always set transparency to true
+    M.config.transparent_background = true
+    vim.g.transparent_background = true
     
     compile_if_not_exist()
 
@@ -61,20 +66,29 @@ function M.load()
     if f ~= nil then
         f()
         
-        -- Apply transparency directly if enabled
-        if M.config.transparent_background then
-            local transparent_groups = {
-                "Normal", "NormalFloat", "SignColumn", "NormalNC", 
-                "LineNr", "CursorLineNr", "Folded", "EndOfBuffer",
-                "VertSplit", "StatusLine", "StatusLineNC",
-                "Pmenu", "PmenuSbar", "PmenuThumb",
-                "TabLine", "TabLineFill", "TabLineSel"
-            }
-            
-            for _, group in ipairs(transparent_groups) do
-                vim.api.nvim_set_hl(0, group, { bg = "NONE" })
+        -- Apply transparency directly to all relevant highlight groups
+        local transparent_groups = {
+            "Normal", "NormalFloat", "SignColumn", "NormalNC", 
+            "LineNr", "CursorLineNr", "Folded", "EndOfBuffer",
+            "VertSplit", "StatusLine", "StatusLineNC",
+            "Pmenu", "PmenuSbar", "PmenuThumb",
+            "TabLine", "TabLineFill", "TabLineSel",
+            "FoldColumn", "ColorColumn", "Conceal",
+            "WinBar", "WinBarNC", "WinSeparator",
+            "StatusLineTerm", "StatusLineTermNC"
+        }
+        
+        for _, group in ipairs(transparent_groups) do
+            -- Preserve foreground color but set background to NONE
+            local current = vim.api.nvim_get_hl(0, {name = group})
+            if current then
+                current.bg = nil
+                vim.api.nvim_set_hl(0, group, current)
             end
         end
+        
+        -- Ensure background is properly cleared
+        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
     else
         vim.notify(
             '[dark_anysphere_transparent.nvim] error trying to load cache file',
@@ -133,30 +147,31 @@ vim.opt.termguicolors=true]],
     end
     table.insert(lines, 'end')
 
-    -- Add transparency overrides if enabled
-    if config.transparent_background then
-        table.insert(lines, [[
--- Apply transparency
-if vim.g.transparent_background then
-    h(0, "Normal", { bg = "NONE" })
-    h(0, "NormalFloat", { bg = "NONE" })
-    h(0, "SignColumn", { bg = "NONE" })
-    h(0, "NormalNC", { bg = "NONE" })
-    h(0, "LineNr", { bg = "NONE" })
-    h(0, "CursorLineNr", { bg = "NONE" })
-    h(0, "Folded", { bg = "NONE" })
-    h(0, "EndOfBuffer", { bg = "NONE" })
-    h(0, "VertSplit", { bg = "NONE" })
-    h(0, "StatusLine", { bg = "NONE" })
-    h(0, "StatusLineNC", { bg = "NONE" })
-    h(0, "Pmenu", { bg = "NONE" })
-    h(0, "PmenuSbar", { bg = "NONE" })
-    h(0, "PmenuThumb", { bg = "NONE" })
-    h(0, "TabLine", { bg = "NONE" })
-    h(0, "TabLineFill", { bg = "NONE" })
-    h(0, "TabLineSel", { bg = "NONE" })
-end]])
+    -- Ensure transparency is always applied
+    table.insert(lines, [[
+-- Apply transparency for all relevant highlight groups
+local transparent_groups = {
+    "Normal", "NormalFloat", "SignColumn", "NormalNC", 
+    "LineNr", "CursorLineNr", "Folded", "EndOfBuffer",
+    "VertSplit", "StatusLine", "StatusLineNC",
+    "Pmenu", "PmenuSbar", "PmenuThumb",
+    "TabLine", "TabLineFill", "TabLineSel",
+    "FoldColumn", "ColorColumn", "Conceal",
+    "WinBar", "WinBarNC", "WinSeparator",
+    "StatusLineTerm", "StatusLineTermNC"
+}
+
+for _, group in ipairs(transparent_groups) do
+    local current = vim.api.nvim_get_hl(0, {name = group})
+    if current then
+        current.bg = nil
+        h(0, group, current)
     end
+end
+
+-- Final override to ensure Normal has no background
+h(0, "Normal", { bg = "NONE" })
+]])
 
     table.insert(lines, 'end,true)')
 
