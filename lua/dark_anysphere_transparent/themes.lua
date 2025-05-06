@@ -1,3 +1,20 @@
+-- Function to ensure all background values are properly handled for transparency
+local function ensure_valid_colors(obj)
+    if type(obj) ~= "table" then
+        return obj
+    end
+    
+    for k, v in pairs(obj) do
+        if type(v) == "table" then
+            obj[k] = ensure_valid_colors(v)
+        elseif k == "bg" and v == "#00000000" then
+            obj[k] = "NONE"
+        end
+    end
+    
+    return obj
+end
+
 return {
     --- @param palette VSCodeModernPalette
     --- @param config VSCodeModernConfig
@@ -237,7 +254,7 @@ return {
                     text = palette.grey_05,
                 },
                 inlay_hint = {
-                    bg = palette.grey_02,
+                    bg = config.transparent_background and 'NONE' or palette.grey_02,
                     fg = palette.grey_06,
                 },
             },
@@ -262,18 +279,20 @@ return {
             },
         }
 
-        return theme
+        -- Process the theme to ensure all transparent values are properly handled
+        return ensure_valid_colors(theme)
     end,
 
     --- @param palette VSCodeModernPalette
     --- @param config VSCodeModernConfig
     --- @return VSCodeModernThemeLight
     light = function(palette, config)
-        local background = palette.grey_09
+        local background = config.transparent_background and 'NONE' or palette.grey_09
 
         if
             config.custom_light_background ~= nil
             and type(config.custom_light_background) == 'string'
+            and not config.transparent_background
         then
             background = config.custom_light_background
         end
@@ -308,14 +327,14 @@ return {
                     fg = palette.yellow_01,
                 },
                 float = {
-                    bg = background,
+                    bg = config.transparent_background and 'NONE' or background,
                     border = {
-                        bg = background,
+                        bg = config.transparent_background and 'NONE' or background,
                         fg = palette.grey_06,
                     },
                 },
                 line_nr = {
-                    bg = background,
+                    bg = config.transparent_background and 'NONE' or background,
                     fg = palette.grey_06,
                 },
                 match_paren = {
@@ -326,7 +345,7 @@ return {
                     fg = palette.grey_07,
                 },
                 status_line = {
-                    bg = palette.grey_07,
+                    bg = config.transparent_background and 'NONE' or palette.grey_07,
                     fg = palette.grey_06,
                     medium = {
                         bg = palette.grey_07,
@@ -364,10 +383,10 @@ return {
                     fg = palette.grey_07,
                 },
                 pmenu = {
-                    bg = palette.grey_07,
+                    bg = config.transparent_background and 'NONE' or palette.grey_07,
                     fg = palette.grey_06,
                     sbar = {
-                        bg = palette.grey_07,
+                        bg = config.transparent_background and 'NONE' or palette.grey_07,
                     },
                     sel = {
                         bg = palette.grey_07,
@@ -395,9 +414,9 @@ return {
                         fg = palette.blue_02,
                     },
                     preview = {
-                        bg = palette.grey_07,
+                        bg = config.transparent_background and 'NONE' or palette.grey_07,
                         border = {
-                            bg = palette.grey_07,
+                            bg = config.transparent_background and 'NONE' or palette.grey_07,
                             fg = palette.grey_07,
                         },
                         title = {
@@ -406,10 +425,10 @@ return {
                         },
                     },
                     prompt = {
-                        bg = palette.grey_07,
+                        bg = config.transparent_background and 'NONE' or palette.grey_07,
                         fg = palette.grey_06,
                         border = {
-                            bg = palette.grey_07,
+                            bg = config.transparent_background and 'NONE' or palette.grey_07,
                             fg = palette.grey_07,
                         },
                         counter = {
@@ -421,9 +440,9 @@ return {
                         },
                     },
                     results = {
-                        bg = palette.grey_07,
+                        bg = config.transparent_background and 'NONE' or palette.grey_07,
                         border = {
-                            bg = palette.grey_07,
+                            bg = config.transparent_background and 'NONE' or palette.grey_07,
                             fg = palette.grey_07,
                         },
                         title = {
@@ -492,7 +511,7 @@ return {
                     text = palette.grey_07,
                 },
                 inlay_hint = {
-                    bg = palette.grey_09,
+                    bg = config.transparent_background and 'NONE' or palette.grey_09,
                     fg = palette.grey_06,
                 },
             },
@@ -517,6 +536,7 @@ return {
             },
         }
 
-        return theme
+        -- Process the theme to ensure all transparent values are properly handled
+        return ensure_valid_colors(theme)
     end,
 }
