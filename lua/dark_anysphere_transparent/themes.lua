@@ -23,7 +23,7 @@ local function ensure_valid_colors(obj)
         return obj
     end
     
-    for k, v in pairs(obj) do
+for k, v in pairs(obj) do
         if type(v) == "table" then
             obj[k] = ensure_valid_colors(v)
         elseif k == "bg" and (v == "#00000000" or v:match("^#%x%x%x%x%x%x$")) then
@@ -226,18 +226,18 @@ return {
                 string = palette.semantic.string,
                 character = palette.semantic.string,
                 number = palette.semantic.func,
-                boolean = palette.blue_04,
+                boolean = palette.minty,
                 identifier = palette.grey_07,
                 punctuation = palette.grey_07,
                 function_name = palette.semantic.func,
                 operator = palette.grey_07,
-                keyword = palette.blue_04,
-                keyword_control_flow = palette.blue_04,
+                keyword = palette.minty,
+                keyword_control_flow = palette.minty,
                 macro = palette.semantic.decorator,
                 type = palette.semantic.class,
                 namespace = palette.semantic.class,
                 special_char = palette.yellow_01,
-                xml_tag = palette.blue_04,
+                xml_tag = palette.minty,
                 xml_delimiter = palette.grey_07,
                 todo = palette.semantic.string,
             },
@@ -489,14 +489,14 @@ return {
                 punctuation = palette.grey_06,
                 function_name = palette.semantic.func,
                 operator = palette.grey_01,
-                keyword = palette.blue_04,
-                keyword_control_flow = palette.blue_04,
-                macro = palette.blue_04,
+                keyword = palette.minty,
+                keyword_control_flow = palette.minty,
+                macro = palette.minty,
                 type = palette.semantic.class,
                 namespace = palette.semantic.class,
                 special_char = palette.red_01,
-                xml_tag = palette.blue_04,
-                xml_delimiter = palette.blue_04,
+                xml_tag = palette.minty,
+                xml_delimiter = palette.minty,
                 todo = palette.semantic.string,
             },
             git = {
