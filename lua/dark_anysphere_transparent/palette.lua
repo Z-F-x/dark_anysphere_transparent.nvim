@@ -29,9 +29,9 @@ M.yellow_01 = '#EBCB8B'   -- warning foreground
 M.yellow_02 = '#e5b95c'   -- minimap modified
 M.yellow_03 = '#ea7620'   -- minimap warning
 
--- Transparency
+-- Transparency - use NONE instead of hex codes with alpha
 M.none = 'NONE'
-M.none_1 = '#00000000'
+M.none_1 = 'NONE' -- Changed from #00000000 to NONE
 
 -- Semantic token colors from Anysphere theme
 M.semantic = {

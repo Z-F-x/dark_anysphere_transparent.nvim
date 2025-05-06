@@ -3,21 +3,23 @@ return {
     --- @param config VSCodeModernConfig
     --- @return VSCodeModernThemeDark
     dark = function(palette, config)
-        local background = palette.none_1
-        local statusline_bg = palette.none_1
+        local background = config.transparent_background and 'NONE' or palette.grey_01
+        local statusline_bg = config.transparent_background and 'NONE' or palette.grey_01
 
         if
             config.custom_dark_background ~= nil
             and type(config.custom_dark_background) == 'string'
+            and not config.transparent_background
         then
-            background = palette.none_1
+            background = config.custom_dark_background
         end
 
         if
             config.custom_statusline_dark_background ~= nil
-            and type(config.custom_statusline_dark_background)
+            and type(config.custom_statusline_dark_background) == 'string'
+            and not config.transparent_background
         then
-            statusline_bg = palette.none_1
+            statusline_bg = config.custom_statusline_dark_background
         end
 
         --- @class VSCodeModernThemeDark
@@ -25,7 +27,7 @@ return {
             palette = palette,
             ui = {
                 bg = background,
-                bg_darker_01 = palette.none_1,
+                bg_darker_01 = config.transparent_background and 'NONE' or palette.grey_01,
                 fg = palette.grey_07,
                 cursor = {
                     bg = palette.grey_09,
@@ -49,21 +51,21 @@ return {
                     fg = palette.yellow_01,
                 },
                 float = {
-                    bg = background,
+                    bg = config.transparent_background and 'NONE' or palette.grey_01,
                     border = {
-                        bg = background,
+                        bg = config.transparent_background and 'NONE' or palette.grey_01,
                         fg = palette.grey_04,
                     },
                 },
                 line_nr = {
-                    bg = background,
+                    bg = config.transparent_background and 'NONE' or background,
                     fg = palette.grey_06,
                 },
                 match_paren = {
                     bg = palette.grey_05,
                 },
                 non_text = {
-                    bg = palette.none,
+                    bg = 'NONE',
                     fg = palette.grey_06,
                 },
                 status_line = {
@@ -92,13 +94,13 @@ return {
                     bg = palette.blue_06,
                 },
                 sign_column = {
-                    bg = palette.none,
+                    bg = 'NONE',
                 },
                 visual = {
                     bg = palette.blue_06,
                 },
                 whitespace = {
-                    bg = palette.none,
+                    bg = 'NONE',
                     fg = palette.grey_06,
                 },
                 win_separator = {
@@ -320,7 +322,7 @@ return {
                     bg = palette.grey_07,
                 },
                 non_text = {
-                    bg = palette.none,
+                    bg = 'NONE',
                     fg = palette.grey_07,
                 },
                 status_line = {
@@ -349,13 +351,13 @@ return {
                     bg = palette.yellow_01,
                 },
                 sign_column = {
-                    bg = palette.none,
+                    bg = 'NONE',
                 },
                 visual = {
                     bg = palette.blue_06,
                 },
                 whitespace = {
-                    bg = palette.none,
+                    bg = 'NONE',
                     fg = palette.grey_07,
                 },
                 win_separator = {
