@@ -1,11 +1,11 @@
 # Dark Anysphere Transparent
 
-A Neovim colorscheme based on the Anysphere VSCode theme with proper transparency support.
+A Neovim colorscheme based on the Anysphere AnysphereModern theme with proper transparency support.
 
 ## Features
 
 - Dark theme with transparency support
-- Matches the Anysphere VSCode theme
+- Matches the Anysphere AnysphereModern theme
 - Terminal integration (Alacritty, Foot, Windows Terminal)
 - Semantic highlighting support
 - Italic support for keywords
@@ -90,5 +90,5 @@ If you're experiencing issues with transparency:
 
 ## Credits
 
-- Based on the Anysphere VSCode theme
-- Inspired by VSCode Modern theme structure
+- Based on the Anysphere AnysphereModern theme
+- Inspired by AnysphereModern Modern theme structure

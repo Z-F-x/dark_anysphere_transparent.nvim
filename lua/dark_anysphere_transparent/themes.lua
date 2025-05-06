@@ -16,9 +16,9 @@ local function ensure_valid_colors(obj)
 end
 
 return {
-    --- @param palette VSCodeModernPalette
-    --- @param config VSCodeModernConfig
-    --- @return VSCodeModernThemeDark
+    --- @param palette AnysphereModernModernPalette
+    --- @param config AnysphereModernModernConfig
+    --- @return AnysphereModernThemeDark
     dark = function(palette, config)
         local background = config.transparent_background and 'NONE' or palette.grey_01
         local statusline_bg = config.transparent_background and 'NONE' or palette.grey_01
@@ -39,7 +39,7 @@ return {
             statusline_bg = config.custom_statusline_dark_background
         end
 
-        --- @class VSCodeModernThemeDark
+        --- @class AnysphereModernThemeDark
         local theme = {
             palette = palette,
             ui = {
@@ -283,9 +283,9 @@ return {
         return ensure_valid_colors(theme)
     end,
 
-    --- @param palette VSCodeModernPalette
-    --- @param config VSCodeModernConfig
-    --- @return VSCodeModernThemeLight
+    --- @param palette AnysphereModernModernPalette
+    --- @param config AnysphereModernModernConfig
+    --- @return AnysphereModernModernThemeLight
     light = function(palette, config)
         local background = config.transparent_background and 'NONE' or palette.grey_09
 
@@ -297,7 +297,7 @@ return {
             background = config.custom_light_background
         end
 
-        --- @class VSCodeModernThemeLight
+        --- @class AnysphereModernModernThemeLight
         local theme = {
             palette = palette,
             ui = {

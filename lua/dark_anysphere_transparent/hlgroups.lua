@@ -1,7 +1,7 @@
 local M = {}
 
---- @param config VSCodeModernConfig
---- @param theme VSCodeModernThemeDark | VSCodeModernThemeLight
+--- @param config AnysphereModernModernConfig
+--- @param theme AnysphereModernThemeDark | AnysphereModernModernThemeLight
 --- @return table
 function M.get(config, theme)
     local palette = theme.palette

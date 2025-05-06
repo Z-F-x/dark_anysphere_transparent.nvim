@@ -54,7 +54,7 @@ function M.setup()
   end
   vim.o.background = "dark"
   vim.o.termguicolors = true
-  vim.g.colors_name = "vscode_modern_theme"
+  vim.g.colors_name = "AnysphereModern_modern_theme"
 
   local groups = {
     -- Vim interface
