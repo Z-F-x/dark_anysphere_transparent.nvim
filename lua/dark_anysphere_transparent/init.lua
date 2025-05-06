@@ -15,11 +15,11 @@ M.config = {
     transparent_background = true, -- Set this to true
     nvim_tree_darker = false,
     undercurl = true,
-    italic_keyword = false,
+    italic_keyword = true,
     custom_dark_background = '#00000000',
     custom_light_background = nil,
     custom_statusline_dark_background = nil,
-    cache_path = vim.fn.stdpath 'cache' .. '/vscode_modern_theme/cache',
+    cache_path = vim.fn.stdpath 'cache' .. '/dark_anysphere_transparent/cache',
 }
 
 --- @overload fun(config?: VSCodeModernConfig)
@@ -29,12 +29,12 @@ end
 
 local function compile_if_not_exist()
     if vim.fn.filereadable(M.config.cache_path) == 0 then
-        local palette = require 'vscode_modern.palette'
+        local palette = require 'dark_anysphere_transparent.palette'
 
         local theme_dark =
-            require('vscode_modern.themes').dark(palette, M.config)
+            require('dark_anysphere_transparent.themes').dark(palette, M.config)
         local theme_light =
-            require('vscode_modern.themes').light(palette, M.config)
+            require('dark_anysphere_transparent.themes').light(palette, M.config)
 
         M.compile(M.config, theme_dark, theme_light)
     end
@@ -48,7 +48,7 @@ function M.load()
         f()
     else
         vim.notify(
-            '[vscode_modern_theme.nvim] error trying to load cache file',
+            '[dark_anysphere_transparent.nvim] error trying to load cache file',
             vim.log.levels.ERROR
         )
     end
@@ -61,13 +61,13 @@ function M.compile(config, theme_dark, theme_light)
     local lines = {
         string.format [[return string.dump(function()
 vim.cmd.highlight('clear')
-vim.g.colors_name="vscode_modern"
+vim.g.colors_name="dark_anysphere_transparent"
 local h=vim.api.nvim_set_hl
 vim.opt.termguicolors=true]],
     }
 
     table.insert(lines, 'if vim.o.background == \'dark\' then')
-    local hgs_dark = require('vscode_modern.hlgroups').get(config, theme_dark)
+    local hgs_dark = require('dark_anysphere_transparent.hlgroups').get(config, theme_dark)
     for group, color in pairs(hgs_dark) do
         table.insert(
             lines,
@@ -81,7 +81,7 @@ vim.opt.termguicolors=true]],
 
     table.insert(lines, 'else')
 
-    local hgs_light = require('vscode_modern.hlgroups').get(config, theme_light)
+    local hgs_light = require('dark_anysphere_transparent.hlgroups').get(config, theme_light)
     for group, color in pairs(hgs_light) do
         table.insert(
             lines,
@@ -96,7 +96,7 @@ vim.opt.termguicolors=true]],
 
     table.insert(lines, 'end,true)')
 
-    local cache_dir = vim.fn.stdpath 'cache' .. '/vscode_modern_theme/'
+    local cache_dir = vim.fn.stdpath 'cache' .. '/dark_anysphere_transparent/'
 
     if vim.fn.isdirectory(cache_dir) == 0 then
         vim.fn.mkdir(cache_dir, 'p')
@@ -105,10 +105,10 @@ vim.opt.termguicolors=true]],
     local f = loadstring(table.concat(lines, '\n'))
     if not f then
         local path_debug_file = vim.fn.stdpath 'state'
-            .. '/vscode_modern_theme-debug.lua'
+            .. '/dark_anysphere_transparent-debug.lua'
 
         local msg = string.format(
-            '[vscode_modern_theme.nvim] error, open %s for debugging',
+            '[dark_anysphere_transparent.nvim] error, open %s for debugging',
             path_debug_file
         )
         vim.notify(msg, vim.log.levels.ERROR)
@@ -127,22 +127,22 @@ vim.opt.termguicolors=true]],
         file:close()
     else
         vim.notify(
-            '[vscode_modern_theme.nvim] error trying to open cache file',
+            '[dark_anysphere_transparent.nvim] error trying to open cache file',
             vim.log.levels.ERROR
         )
     end
 end
 
-vim.api.nvim_create_user_command('VSCodeModernCompile', function()
-    local palette = require 'vscode_modern.palette'
+vim.api.nvim_create_user_command('DarkAnysphereTransparentCompile', function()
+    local palette = require 'dark_anysphere_transparent.palette'
 
-    local theme_dark = require('vscode_modern.themes').dark(palette, M.config)
-    local theme_light = require('vscode_modern.themes').light(palette, M.config)
+    local theme_dark = require('dark_anysphere_transparent.themes').dark(palette, M.config)
+    local theme_light = require('dark_anysphere_transparent.themes').light(palette, M.config)
 
     M.compile(M.config, theme_dark, theme_light)
 
-    vim.notify '[vscode_modern.nvim] colorscheme compiled'
-    vim.cmd.colorscheme 'vscode_modern'
+    vim.notify '[dark_anysphere_transparent.nvim] colorscheme compiled'
+    vim.cmd.colorscheme 'dark_anysphere_transparent'
 end, {})
 
 return M

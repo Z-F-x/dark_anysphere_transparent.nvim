@@ -1,0 +1,40 @@
+colors:
+  primary:
+    background: "#141414"
+    foreground: "#CCCCCC"
+
+  cursor:
+    text: "#141414"
+    cursor: "#FFFFFF"
+
+  selection:
+      text: "#CCCCCC"
+      background: "#264f78"
+
+  search:
+    matches:
+      foreground: "#CCCCCC"
+      background: "#141414"
+    focused_match:
+      foreground: "#CCCCCC"
+      background: "#613214"
+
+  normal:
+    black:   "#2A2A2A"
+    red:     "#BF616A"
+    green:   "#A3BE8C"
+    yellow:  "#EBCB8B"
+    blue:    "#81A1C1"
+    magenta: "#B48EAD"
+    cyan:    "#88C0D0"
+    white:   "#FFFFFF"
+
+  bright:
+    black:   "#505050"
+    red:     "#BF616A"
+    green:   "#A3BE8C"
+    yellow:  "#EBCB8B"
+    blue:    "#81A1C1"
+    magenta: "#B48EAD"
+    cyan:    "#88C0D0"
+    white:   "#FFFFFF"

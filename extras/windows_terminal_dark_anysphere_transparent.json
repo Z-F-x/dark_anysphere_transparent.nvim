@@ -1,0 +1,23 @@
+{
+    "name": "Dark Anysphere Transparent",
+    "background": "#141414",
+    "foreground": "#CCCCCC",
+    "cursorColor": "#FFFFFF",
+    "selectionBackground": "#264f78",
+    "black": "#2A2A2A",
+    "red": "#BF616A",
+    "green": "#A3BE8C",
+    "yellow": "#EBCB8B",
+    "blue": "#81A1C1",
+    "purple": "#B48EAD",
+    "cyan": "#88C0D0",
+    "white": "#FFFFFF",
+    "brightBlack": "#505050",
+    "brightRed": "#BF616A",
+    "brightGreen": "#A3BE8C",
+    "brightYellow": "#EBCB8B",
+    "brightBlue": "#81A1C1",
+    "brightPurple": "#B48EAD",
+    "brightCyan": "#88C0D0",
+    "brightWhite": "#FFFFFF"
+}
