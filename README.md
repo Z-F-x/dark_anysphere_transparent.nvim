@@ -9,7 +9,8 @@
 [lazy.nvim](https://github.com/folke/lazy.nvim)
 ```lua
   {
-    "Z-F-x/dark_anyshpere_transparent.nvim",
+    "Z-F-x/dark_anysphere_transparent.nvim",
+    "Z-F-x/dark_anysphere_transparent.nvim",
     opts = {
       transparent = true,
       styles = {
